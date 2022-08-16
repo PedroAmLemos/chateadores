@@ -1,7 +1,7 @@
 import threading
 import socket
 
-def recieve(socket):
+def receive(socket):
     while True:
         try:
             message = socket.recv(1024).decode("ascii")
@@ -34,7 +34,7 @@ class Chat:
         nickname = client.recv(1024).decode("ascii")
         print("Nickname is {}".format(nickname))
         client.send(self.chatId.encode("ascii"))
-        receive_thread = threading.Thread(target=recieve, args=(client,))
+        receive_thread = threading.Thread(target=receive, args=(client,))
         receive_thread.start()
         write_thread = threading.Thread(target=write, args=(self.chatId, client,))
         write_thread.start()
@@ -46,7 +46,7 @@ class Chat:
         print("Connected with {}".format(ip))
         nickname = self.socket.recv(1024).decode("ascii")
         print("Nickname is {}".format(nickname))
-        receive_thread = threading.Thread(target=recieve, args=(self.socket,))
+        receive_thread = threading.Thread(target=receive, args=(self.socket,))
         receive_thread.start()
         write_thread = threading.Thread(target=write, args=(self.chatId, self.socket))
         write_thread.start()
